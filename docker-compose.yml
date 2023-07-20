@@ -25,12 +25,19 @@ services:
     container_name: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=keycloak
-      - POSTGRES_USER=keycloak
-      - POSTGRES_PASSWORD=password
+    env_file:
+      - ./database.dev.env
     ports:
       - 5432:5432
+    networks:
+      - keycloak-network
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    env_file:
+      - ./database.dev.env
+    ports:
+      - '5050:80'
     networks:
       - keycloak-network
 
